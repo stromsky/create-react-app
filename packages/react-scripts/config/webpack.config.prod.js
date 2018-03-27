@@ -262,10 +262,10 @@ module.exports = {
   },
   plugins: [
     new webpack.NormalModuleReplacementPlugin(
-      /(.*)\.app(\.*)/,
+      /(.*)\.TARGET_APP(\.*)/,
       function (resource) {
         resource.request = resource.request
-          .replace(/.app/, `-${process.env.TARGET_APP}`);
+          .replace(/.TARGET_APP/, `.${process.env.TARGET_APP}`);
       }
     ),
     // Makes some environment variables available in index.html.

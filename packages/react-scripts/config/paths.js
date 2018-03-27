@@ -20,7 +20,7 @@ const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 const envPublicUrl = process.env.PUBLIC_URL;
 
 const targetAppOverridePath = resolveApp(process.env.TARGET_APP + '.paths.json');
-const targetAppOverrides = path.existsSync(targetAppOverridePath) ? require(targetAppOverridePath) : {};
+const targetAppOverrides = fs.existsSync(targetAppOverridePath) ? require(targetAppOverridePath) : {};
 
 const appPaths = Object.assign({
   dotenv: '.env',
