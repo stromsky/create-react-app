@@ -18,6 +18,10 @@ const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 
 const envPublicUrl = process.env.PUBLIC_URL;
+
+const targetAppOverridePath = resolveApp(process.env.TARGET_APP + '.paths.json');
+const targetAppOverrides = path.existsSync(targetAppOverridePath) ? require(targetAppOverridePath) : {};
+
 const appPaths = Object.assign({
   dotenv: '.env',
   appBuild:'build',
@@ -29,7 +33,7 @@ const appPaths = Object.assign({
   yarnLockFile: 'yarn.lock',
   testsSetup: 'src/setupTests.js',
   appNodeModules: 'node_modules',
-}, (process.env.APP_PATHS && require(process.env.APP_PATHS)) || {});
+}, targetAppOverrides);
 
 function ensureSlash(path, needsSlash) {
   const hasSlash = path.endsWith('/');

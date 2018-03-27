@@ -236,6 +236,13 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.NormalModuleReplacementPlugin(
+      /(.*)\.app(\.*)/,
+      function (resource) {
+        resource.request = resource.request
+          .replace(/.app/, `-${process.env.TARGET_APP}`);
+      }
+    ),
     // Makes some environment variables available in index.html.
     // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
