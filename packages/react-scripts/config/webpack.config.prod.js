@@ -51,7 +51,7 @@ const cssFilename = 'static/css/[name].[contenthash:8].css';
 // To have this structure working with relative paths, we have to use custom options.
 const extractTextPluginOptions = shouldUseRelativeAssetPaths
   ? // Making sure that the publicPath goes back to to build folder.
-    { publicPath: Array(cssFilename.split('/').length).join('../') }
+  { publicPath: Array(cssFilename.split('/').length).join('../') }
   : {};
 
 // This is the production configuration.
@@ -261,6 +261,13 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.NormalModuleReplacementPlugin(
+      /(.*)\.TARGET_APP(\.*)/,
+      function (resource) {
+        resource.request = resource.request
+          .replace(/.TARGET_APP/, `.${process.env.TARGET_APP}`);
+      }
+    ),
     // Makes some environment variables available in index.html.
     // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">

@@ -19,6 +19,22 @@ const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 
 const envPublicUrl = process.env.PUBLIC_URL;
 
+const targetAppOverridePath = resolveApp(process.env.TARGET_APP + '.paths.json');
+const targetAppOverrides = fs.existsSync(targetAppOverridePath) ? require(targetAppOverridePath) : {};
+
+const appPaths = Object.assign({
+  dotenv: '.env',
+  appBuild:'build',
+  appPublic: 'public',
+  appHtml:'public/index.html',
+  appIndexJs: 'src/index.js',
+  appPackageJson: 'package.json',
+  appSrc: 'src',
+  yarnLockFile: 'yarn.lock',
+  testsSetup: 'src/setupTests.js',
+  appNodeModules: 'node_modules',
+}, targetAppOverrides);
+
 function ensureSlash(path, needsSlash) {
   const hasSlash = path.endsWith('/');
   if (hasSlash && !needsSlash) {
@@ -48,16 +64,16 @@ function getServedPath(appPackageJson) {
 
 // config after eject: we're in ./config/
 module.exports = {
-  dotenv: resolveApp('.env'),
-  appBuild: resolveApp('build'),
-  appPublic: resolveApp('public'),
-  appHtml: resolveApp('public/index.html'),
-  appIndexJs: resolveApp('src/index.js'),
-  appPackageJson: resolveApp('package.json'),
-  appSrc: resolveApp('src'),
-  yarnLockFile: resolveApp('yarn.lock'),
-  testsSetup: resolveApp('src/setupTests.js'),
-  appNodeModules: resolveApp('node_modules'),
+  dotenv: resolveApp(appPaths.dotenv),
+  appBuild: resolveApp(appPaths.appBuild),
+  appPublic: resolveApp(appPaths.appPublic),
+  appHtml: resolveApp(appPaths.appHtml),
+  appIndexJs: resolveApp(appPaths.appIndexJs),
+  appPackageJson: resolveApp(appPaths.appPackageJson),
+  appSrc: resolveApp(appPaths.appSrc),
+  yarnLockFile: resolveApp(appPaths.yarnLockFile),
+  testsSetup: resolveApp(appPaths.testsSetup),
+  appNodeModules: resolveApp(appPaths.appNodeModules),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
 };
@@ -67,17 +83,17 @@ const resolveOwn = relativePath => path.resolve(__dirname, '..', relativePath);
 
 // config before eject: we're in ./node_modules/react-scripts/config/
 module.exports = {
-  dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
-  appBuild: resolveApp('build'),
-  appPublic: resolveApp('public'),
-  appHtml: resolveApp('public/index.html'),
-  appIndexJs: resolveApp('src/index.js'),
-  appPackageJson: resolveApp('package.json'),
-  appSrc: resolveApp('src'),
-  yarnLockFile: resolveApp('yarn.lock'),
-  testsSetup: resolveApp('src/setupTests.js'),
-  appNodeModules: resolveApp('node_modules'),
+  dotenv: resolveApp(appPaths.dotenv),
+  appBuild: resolveApp(appPaths.appBuild),
+  appPublic: resolveApp(appPaths.appPublic),
+  appHtml: resolveApp(appPaths.appHtml),
+  appIndexJs: resolveApp(appPaths.appIndexJs),
+  appPackageJson: resolveApp(appPaths.appPackageJson),
+  appSrc: resolveApp(appPaths.appSrc),
+  yarnLockFile: resolveApp(appPaths.yarnLockFile),
+  testsSetup: resolveApp(appPaths.testsSetup),
+  appNodeModules: resolveApp(appPaths.appNodeModules),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
   // These properties only exist before ejecting:
