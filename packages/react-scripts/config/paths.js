@@ -16,6 +16,12 @@ const url = require('url');
 // https://github.com/facebookincubator/create-react-app/issues/637
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
+const resolveAliases = () => {
+  let map = Object.assign(require(resolveApp(appPaths.appPackageJson)).alias || {}, appPaths.alias || {});
+  Object.getOwnPropertyNames(map).forEach(key => map[key] = path.resolve(appDirectory, resolveApp(map[key])));
+  console.log('alias: ' + JSON.stringify(map));
+  return map;
+};
 
 const envPublicUrl = process.env.PUBLIC_URL;
 
@@ -76,6 +82,7 @@ module.exports = {
   appNodeModules: resolveApp(appPaths.appNodeModules),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
+  alias: resolveAliases()
 };
 
 // @remove-on-eject-begin
@@ -99,6 +106,7 @@ module.exports = {
   // These properties only exist before ejecting:
   ownPath: resolveOwn('.'),
   ownNodeModules: resolveOwn('node_modules'), // This is empty on npm 3
+  alias: resolveAliases()
 };
 
 const ownPackageJson = require('../package.json');
