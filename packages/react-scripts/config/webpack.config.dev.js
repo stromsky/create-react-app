@@ -91,7 +91,7 @@ module.exports = {
     // `web` extension prefixes have been added for better support
     // for React Native Web.
     extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
-    alias: Object.assign({
+    alias: {
       // @remove-on-eject-begin
       // Resolve Babel runtime relative to react-scripts.
       // It usually still works on npm 3 without this but it would be
@@ -104,8 +104,8 @@ module.exports = {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
-      
-    }, paths.alias),
+      '@': paths.appSrc
+    },
     plugins: [
       // Prevents users from importing files from outside of src/ (or node_modules/).
       // This often causes confusion because we only process files within src/ with babel.
@@ -134,7 +134,7 @@ module.exports = {
               eslintPath: require.resolve('eslint'),
               // @remove-on-eject-begin
               baseConfig: {
-                extends: [require.resolve('eslint-config-react-app')],
+                extends: [require.resolve('eslint-config-linksoft-react-app')],
               },
               ignore: false,
               useEslintrc: false,
@@ -169,7 +169,7 @@ module.exports = {
             options: {
               // @remove-on-eject-begin
               babelrc: false,
-              presets: [require.resolve('babel-preset-react-app')],
+              presets: [require.resolve('babel-preset-linksoft-react-app')],
               // @remove-on-eject-end
               // This is a feature of `babel-loader` for webpack (not Babel itself).
               // It enables caching results in ./node_modules/.cache/babel-loader/

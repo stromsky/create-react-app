@@ -104,6 +104,7 @@ module.exports = {
       jsx: true,
       generators: true,
       experimentalObjectRestSpread: true,
+      experimentalDecorators: true,
     },
   },
 
