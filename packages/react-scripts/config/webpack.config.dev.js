@@ -21,6 +21,7 @@ const getClientEnvironment = require('./env');
 const paths = require('./paths');
 const buildConfig = require('./buildConfig');
 const ManifestPlugin = require('webpack-manifest-plugin');
+const buildSass = buildConfig.buildSass || false;
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -186,13 +187,13 @@ module.exports = {
           // In production, we use a plugin to extract that CSS to a file, but
           // in development "style" loader enables hot editing of CSS.
           {
-            test: /\.s?css$/,
+            test: buildSass ? /\.s?css$/ : /\.css$/,
             use: [
               require.resolve('style-loader'),
               {
                 loader: require.resolve('css-loader'),
                 options: {
-                  importLoaders: 2,
+                  importLoaders: buildSass ? 2 : 1,
                 },
               },
               {
@@ -215,13 +216,13 @@ module.exports = {
                   ],
                 },
               },
-              {
+              buildSass ? {
                 loader: require.resolve('sass-loader'),
                 options: { 
                   sourceComments: true,
                   sourceMap: true
                 }
-              }
+              } : null
             ],
           },
           // "file" loader makes sure those assets get served by WebpackDevServer.
