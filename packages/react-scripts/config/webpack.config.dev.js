@@ -135,7 +135,7 @@ module.exports = {
           {
             options: {
               formatter: eslintFormatter,
-              eslintPath: require.resolve('eslint'),
+              eslintPath: require.resolve(path.join(__dirname, '../node_modules/eslint')),
               // @remove-on-eject-begin
               baseConfig: {
                 extends: [require.resolve('eslint-config-linksoft-react-app')],
