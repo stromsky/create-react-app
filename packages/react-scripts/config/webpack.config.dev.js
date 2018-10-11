@@ -19,6 +19,9 @@ const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
+const buildConfig = require('./buildConfig');
+const ManifestPlugin = require('webpack-manifest-plugin');
+const buildSass = buildConfig.buildSass || false;
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -60,6 +63,7 @@ module.exports = {
     // initialization, it doesn't blow up the WebpackDevServer client, and
     // changing JS code would still trigger a refresh.
   ],
+  externals: buildConfig.externals,
   output: {
     // Add /* filename */ comments to generated require()s in the output.
     pathinfo: true,
@@ -104,6 +108,7 @@ module.exports = {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
+      '@': paths.appSrc
     },
     plugins: [
       // Prevents users from importing files from outside of src/ (or node_modules/).
@@ -130,10 +135,10 @@ module.exports = {
           {
             options: {
               formatter: eslintFormatter,
-              eslintPath: require.resolve('eslint'),
+              eslintPath: require.resolve(path.join(__dirname, '../node_modules/eslint')),
               // @remove-on-eject-begin
               baseConfig: {
-                extends: [require.resolve('eslint-config-react-app')],
+                extends: [require.resolve('eslint-config-linksoft-react-app')],
               },
               ignore: false,
               useEslintrc: false,
@@ -163,12 +168,12 @@ module.exports = {
           // Process JS with Babel.
           {
             test: /\.(js|jsx|mjs)$/,
-            include: paths.appSrc,
+            include: paths.babelInclude,
             loader: require.resolve('babel-loader'),
             options: {
               // @remove-on-eject-begin
               babelrc: false,
-              presets: [require.resolve('babel-preset-react-app')],
+              presets: [require.resolve('babel-preset-linksoft-react-app')],
               // @remove-on-eject-end
               // This is a feature of `babel-loader` for webpack (not Babel itself).
               // It enables caching results in ./node_modules/.cache/babel-loader/
@@ -182,13 +187,13 @@ module.exports = {
           // In production, we use a plugin to extract that CSS to a file, but
           // in development "style" loader enables hot editing of CSS.
           {
-            test: /\.css$/,
+            test: buildSass ? /\.s?css$/ : /\.css$/,
             use: [
               require.resolve('style-loader'),
               {
                 loader: require.resolve('css-loader'),
                 options: {
-                  importLoaders: 1,
+                  importLoaders: buildSass ? 2 : 1,
                 },
               },
               {
@@ -211,6 +216,13 @@ module.exports = {
                   ],
                 },
               },
+              buildSass ? {
+                loader: require.resolve('sass-loader'),
+                options: { 
+                  sourceComments: true,
+                  sourceMap: true
+                }
+              } : null
             ],
           },
           // "file" loader makes sure those assets get served by WebpackDevServer.
@@ -275,6 +287,7 @@ module.exports = {
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new ManifestPlugin({ fileName: 'asset-manifest.json' })
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.

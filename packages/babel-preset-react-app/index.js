@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Copyright (c) 2015-present, Facebook, Inc.
  *
  * This source code is licensed under the MIT license found in the
@@ -7,6 +7,7 @@
 'use strict';
 
 const plugins = [
+  require.resolve('babel-plugin-transform-decorators-legacy'),
   // Necessary to include regardless of the environment because
   // in practice some other transforms (such as object-rest-spread)
   // don't work without it: https://github.com/babel/babel/issues/7215

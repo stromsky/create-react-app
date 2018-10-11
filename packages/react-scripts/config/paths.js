@@ -11,6 +11,7 @@
 const path = require('path');
 const fs = require('fs');
 const url = require('url');
+const buildConfig = require('./buildConfig');
 
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebookincubator/create-react-app/issues/637
@@ -46,6 +47,16 @@ function ensureSlash(path, needsSlash) {
   }
 }
 
+function getBabelInclude() {
+  if (buildConfig && buildConfig.babel && buildConfig.babel.include) {
+    const include = buildConfig.babel.include;
+    if (include.length) {
+      return include.map(i => resolveApp(i))
+    }
+  }
+  return null;
+}
+
 const getPublicUrl = appPackageJson =>
   envPublicUrl || require(appPackageJson).homepage;
 
@@ -76,6 +87,7 @@ module.exports = {
   appNodeModules: resolveApp(appPaths.appNodeModules),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
+  babelInclude: getBabelInclude() || resolveApp(appPaths.appSrc)
 };
 
 // @remove-on-eject-begin
@@ -99,6 +111,7 @@ module.exports = {
   // These properties only exist before ejecting:
   ownPath: resolveOwn('.'),
   ownNodeModules: resolveOwn('node_modules'), // This is empty on npm 3
+  babelInclude: getBabelInclude() || resolveApp(appPaths.appSrc)
 };
 
 const ownPackageJson = require('../package.json');
@@ -129,6 +142,7 @@ if (
     // These properties only exist before ejecting:
     ownPath: resolveOwn('.'),
     ownNodeModules: resolveOwn('node_modules'),
+    babelInclude: resolveOwn('template/src')
   };
 }
 // @remove-on-eject-end

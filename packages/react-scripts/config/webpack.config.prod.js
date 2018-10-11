@@ -20,6 +20,8 @@ const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
+const buildConfig = require('./buildConfig');
+const buildSass = buildConfig.buildSass || false;
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -65,6 +67,7 @@ module.exports = {
   devtool: shouldUseSourceMap ? 'source-map' : false,
   // In production, we only want to load the polyfills and the app code.
   entry: [require.resolve('./polyfills'), paths.appIndexJs],
+  externals: buildConfig.externals,
   output: {
     // The build folder.
     path: paths.appBuild,
@@ -110,6 +113,7 @@ module.exports = {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
+      '@': paths.appSrc
     },
     plugins: [
       // Prevents users from importing files from outside of src/ (or node_modules/).
@@ -136,12 +140,12 @@ module.exports = {
           {
             options: {
               formatter: eslintFormatter,
-              eslintPath: require.resolve('eslint'),
+              eslintPath: require.resolve(path.join(__dirname, '../node_modules/eslint')),
               // @remove-on-eject-begin
               // TODO: consider separate config for production,
               // e.g. to enable no-console and no-debugger only in production.
               baseConfig: {
-                extends: [require.resolve('eslint-config-react-app')],
+                extends: [require.resolve('eslint-config-linksoft-react-app')],
               },
               ignore: false,
               useEslintrc: false,
@@ -170,12 +174,12 @@ module.exports = {
           // Process JS with Babel.
           {
             test: /\.(js|jsx|mjs)$/,
-            include: paths.appSrc,
+            include: paths.babelInclude,
             loader: require.resolve('babel-loader'),
             options: {
               // @remove-on-eject-begin
               babelrc: false,
-              presets: [require.resolve('babel-preset-react-app')],
+              presets: [require.resolve('babel-preset-linksoft-react-app')],
               // @remove-on-eject-end
               compact: true,
             },
@@ -193,7 +197,7 @@ module.exports = {
           // use the "style" loader inside the async code so CSS from them won't be
           // in the main CSS file.
           {
-            test: /\.css$/,
+            test: buildSass ? /\.s?css$/ : /\.css$/,
             loader: ExtractTextPlugin.extract(
               Object.assign(
                 {
@@ -207,7 +211,7 @@ module.exports = {
                     {
                       loader: require.resolve('css-loader'),
                       options: {
-                        importLoaders: 1,
+                        importLoaders: buildSass ? 2 : 1,
                         minimize: true,
                         sourceMap: shouldUseSourceMap,
                       },
@@ -232,6 +236,12 @@ module.exports = {
                         ],
                       },
                     },
+                    buildSass ? {
+                      loader: require.resolve('sass-loader'),
+                      options: { 
+                        sourceComments: true 
+                      }
+                    } : null
                   ],
                 },
                 extractTextPluginOptions
@@ -350,7 +360,7 @@ module.exports = {
       },
       minify: true,
       // For unknown URLs, fallback to the index page
-      navigateFallback: publicUrl + '/index.html',
+      navigateFallback: publicUrl,
       // Ignores URLs starting from /__ (useful for Firebase):
       // https://github.com/facebookincubator/create-react-app/issues/2237#issuecomment-302693219
       navigateFallbackWhitelist: [/^(?!\/__).*/],
