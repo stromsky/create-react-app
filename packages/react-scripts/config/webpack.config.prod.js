@@ -140,7 +140,7 @@ module.exports = {
           {
             options: {
               formatter: eslintFormatter,
-              eslintPath: require.resolve(path.join(__dirname, '../node_modules/eslint')),
+              eslintPath: require.resolve('eslint'),
               // @remove-on-eject-begin
               // TODO: consider separate config for production,
               // e.g. to enable no-console and no-debugger only in production.
@@ -238,8 +238,8 @@ module.exports = {
                     },
                     buildSass ? {
                       loader: require.resolve('sass-loader'),
-                      options: { 
-                        sourceComments: true 
+                      options: {
+                        sourceComments: true
                       }
                     } : null
                   ],
