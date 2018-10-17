@@ -1,6 +1,6 @@
 {
   "name": "linksoft-react-scripts",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "Configuration and scripts for Create React App.",
   "repository": "stromsky/create-react-app",
   "license": "MIT",
@@ -34,7 +34,7 @@
     "dotenv": "4.0.0",
     "dotenv-expand": "4.2.0",
     "eslint": "5.6.0",
-    "eslint-config-linksoft-react-app": "1.0.1",
+    "eslint-config-linksoft-react-app": "1.1.0",
     "eslint-config-standard": "12.0.0",
     "eslint-config-standard-react": "7.0.2",
     "eslint-plugin-standard": "4.0.0",
