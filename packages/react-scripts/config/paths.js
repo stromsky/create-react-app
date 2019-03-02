@@ -8,9 +8,10 @@ const targetApp = process.env.TARGET_APP || 'default'
 let customPaths = (buildConfig && buildConfig.paths && buildConfig.paths[targetApp]);
 
 if (customPaths) {
+  const resolvedCustomPaths = {};
   const customProps = Object.getOwnPropertyNames(customPaths);
   for (let i = 0; i < customProps.length; i++) {
-    const propName = customProps[i]
+    const propName = customProps[i];
     switch(propName) {
       case 'dotenv':
       case 'appPath':
@@ -23,20 +24,21 @@ if (customPaths) {
       case 'yarnLockFile':
       case 'proxySetup':
       case 'appNodeModules':
-        customPaths[propName] = paths.resolveApp(customPaths[propName]);
+        resolvedCustomPaths[propName] = paths.resolveApp(customPaths[propName]);
         break;
       case 'appIndexJs':
       case 'testsSetup':
-      customPaths[propName] = paths.resolveModule(customPaths[propName]);
+        resolvedCustomPaths[propName] = paths.resolveModule(paths.resolveApp, customPaths[propName]);
         break;
       case 'publicUrl':
-      customPaths[propName] = paths.getPublicUrl(paths.resolveApp(customPaths[propName]));
+        resolvedCustomPaths[propName] = paths.getPublicUrl(paths.resolveApp(customPaths[propName]));
         break;
       case 'servedPath':
-      customPaths[propName] = paths.getServedPath(paths.resolveApp(customPaths[propName]));
+        resolvedCustomPaths[propName] = paths.getServedPath(paths.resolveApp(customPaths[propName]));
         break;
     }
   }
+  customPaths = resolvedCustomPaths;
 }
 
 paths = Object.assign(paths, customPaths);
