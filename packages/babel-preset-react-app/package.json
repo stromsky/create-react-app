@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-linksoft-react-app",
-  "version": "2.0.0-beta02",
+  "version": "2.0.0-beta03",
   "description": "Babel preset used by Create React App",
   "repository": "facebook/create-react-app",
   "license": "MIT",
@@ -35,7 +35,6 @@
     "babel-loader": "8.0.5",
     "babel-plugin-dynamic-import-node": "2.2.0",
     "babel-plugin-macros": "2.5.0",
-    "babel-plugin-transform-decorators-legacy": "1.3.5",
     "babel-plugin-transform-react-remove-prop-types": "0.4.24"
   }
 }
