@@ -110,6 +110,7 @@ module.exports = function(api, opts, env) {
       isTypeScriptEnabled && [require('@babel/preset-typescript').default],
     ].filter(Boolean),
     plugins: [
+      require.resolve('babel-plugin-transform-decorators-legacy'),
       // Strip flow types before any other transform, emulating the behavior
       // order as-if the browser supported all of the succeeding features
       // https://github.com/facebook/create-react-app/pull/5182
