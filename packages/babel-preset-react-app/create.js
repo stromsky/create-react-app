@@ -104,10 +104,6 @@ module.exports = function(api, opts, env) {
       isTypeScriptEnabled && [require('@babel/preset-typescript').default],
     ].filter(Boolean),
     plugins: [
-      [
-        require('@babel/plugin-proposal-decorators').default,
-        { legacy: true },
-      ],
       // Strip flow types before any other transform, emulating the behavior
       // order as-if the browser supported all of the succeeding features
       // https://github.com/facebook/create-react-app/pull/5182
@@ -203,8 +199,8 @@ module.exports = function(api, opts, env) {
         exclude: /\.tsx?$/,
         plugins: [require('@babel/plugin-transform-flow-strip-types').default],
       },
-      isTypeScriptEnabled && {
-        test: /\.tsx?$/,
+      {
+        test: /\.[jt]sx?$/,
         plugins: [
           [
             require('@babel/plugin-proposal-decorators').default,
