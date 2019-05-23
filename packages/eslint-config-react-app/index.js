@@ -2,13 +2,25 @@
 
 module.exports = {
   'extends': [
-    'standard', 'standard-react'
+    'standard', 'standard-react', 'flowtype', 'react-hooks'
   ],
   'env': {
-    'jest': true
+    browser: true,
+    commonjs: true,
+    es6: true,
+    jest: true,
+    node: true
   },
   'rules': {
-    'react/prop-types': ['warn', { 'skipUndeclared': true }]
+    'react/prop-types': ['warn', { 'skipUndeclared': true }],
+
+    // https://github.com/facebook/react/tree/master/packages/eslint-plugin-react-hooks
+    'react-hooks/rules-of-hooks': 'error',
+
+    // https://github.com/gajus/eslint-plugin-flowtype
+    'flowtype/define-flow-type': 'warn',
+    'flowtype/require-valid-file-annotation': 'warn',
+    'flowtype/use-flow-type': 'warn',  
   },
   'parser': 'babel-eslint',
 

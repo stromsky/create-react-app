@@ -143,7 +143,7 @@ module.exports = function(api, opts, env) {
       // Turn on legacy decorators for TypeScript files
       [
         require('@babel/plugin-proposal-decorators').default,
-        false,
+        { legacy: true }
       ],
       // class { handleClick = () => { } }
       // Enable loose mode to use assignment instead of defineProperty
@@ -198,16 +198,7 @@ module.exports = function(api, opts, env) {
       isFlowEnabled && {
         exclude: /\.tsx?$/,
         plugins: [require('@babel/plugin-transform-flow-strip-types').default],
-      },
-      {
-        test: /\.[jt]sx?$/,
-        plugins: [
-          [
-            require('@babel/plugin-proposal-decorators').default,
-            { legacy: true },
-          ],
-        ],
-      },
+      }
     ].filter(Boolean),
   };
 };
