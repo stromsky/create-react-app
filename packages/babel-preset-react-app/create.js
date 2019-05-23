@@ -141,7 +141,7 @@ module.exports = function(api, opts, env) {
         },
       ],
       // Turn on legacy decorators for TypeScript files
-      isTypeScriptEnabled && [
+      [
         require('@babel/plugin-proposal-decorators').default,
         false,
       ],
