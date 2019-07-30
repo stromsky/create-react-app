@@ -1,6 +1,6 @@
 {
   "name": "linksoft-react-scripts",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Configuration and scripts for Create React App.",
   "repository": "stromsky/create-react-app",
   "license": "MIT",
@@ -43,6 +43,7 @@
     "eslint-plugin-node": "7.0.1",
     "eslint-plugin-promise": "4.0.1",
     "eslint-plugin-react": "7.11.1",
+    "eslint-plugin-react-hooks": "1.6.1",
     "eslint-plugin-standard": "4.0.0",
     "extract-text-webpack-plugin": "3.0.2",
     "file-loader": "1.1.5",
