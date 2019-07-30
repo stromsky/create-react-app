@@ -20,6 +20,7 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^7.0.1",
     "eslint-plugin-react": "^7.11.1",
+    "eslint-plugin-react-hooks": "^1.6.1",
     "eslint-plugin-jest": "^21.22.0"
   }
 }

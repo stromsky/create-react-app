@@ -7,8 +7,13 @@ module.exports = {
   'env': {
     'jest': true
   },
+  'plugins': [
+    'react-hooks'
+  ],
   'rules': {
-    'react/prop-types': ['warn', { 'skipUndeclared': true }]
+    'react/prop-types': ['warn', { 'skipUndeclared': true }],
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn'
   },
   'parser': 'babel-eslint',
 
