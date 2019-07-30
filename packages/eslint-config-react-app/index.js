@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = {
   'extends': [
@@ -13,7 +13,8 @@ module.exports = {
   'rules': {
     'react/prop-types': ['warn', { 'skipUndeclared': true }],
     'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn'
+    'react-hooks/exhaustive-deps': 'warn',
+    'promise/catch-or-return': 'warn'
   },
   'parser': 'babel-eslint',
 
